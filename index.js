@@ -2,7 +2,7 @@ const app = require("./app");
 const http = require("http").Server(app);
 require("dotenv").config();
 
-
-http.listen(process.env.PORT || 5000, () =>
-  console.log("Adresse du serveur : http://localhost:5000")
-);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
+});
