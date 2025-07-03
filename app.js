@@ -8,6 +8,7 @@ const userRoutes = require("./routes/userRoutes");
 const minRoutes = require("./routes/ministryRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const appRoutes = require("./routes/appRoutes");
+const notifRoutes = require("./routes/notifRoutes");
 const path = require("path");
 
 const app = express();
@@ -19,6 +20,7 @@ mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 15000, // augmente le délai
   })
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
@@ -50,5 +52,6 @@ app.use("/", minRoutes);
 app.use("/users", userRoutes);
 app.use("/message", messageRoutes);
 app.use("/apps", appRoutes);
+app.use("/notifs", notifRoutes);
 
 module.exports = app;
