@@ -114,12 +114,11 @@ exports.deleteMessage = async (req, res) => {
         .status(403)
         .json({ message: "Vous n'êtes pas autorisé à supprimer ce message" });
     }
+    // Supprimer les notifications liées à ce message
+    await Notification.deleteMany({ message: messageId });
 
     // Supprimer le message
     await Message.findByIdAndDelete(messageId);
-
-    // Supprimer les notifications liées à ce message
-    // await Notification.deleteMany({ message: messageId });
 
     res.status(200).json({ message: "Message supprimé avec succès" });
   } catch (error) {

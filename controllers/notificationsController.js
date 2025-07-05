@@ -4,9 +4,15 @@ const Notification = require("../models/Notification");
 // GET notifications
 exports.getUserNotifications = async (req, res) => {
   try {
-    const { user } = req.params;
-    const notifications = await Notification.find({ user: user })
-      .populate("message") // pour inclure le contenu du message
+    const { userId } = req.params;
+    const notifications = await Notification.find({ user: userId })
+      .populate({
+        path: "message",
+        populate: {
+          path: "sender", // ceci va peupler le champ sender avec les données de l'utilisateur
+          model: "User", // assure-toi que c'est bien le nom de ton modèle User
+        },
+      })
       .sort({ createdAt: -1 });
 
     res.status(200).json(notifications);
